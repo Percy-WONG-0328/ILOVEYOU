@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Me Something</title>
+    <style>
+        body {
+            font-family: Consolas;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 100px 20px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        h1 i {
+            color: #000000;
+        }
+        .send-form {
+            margin-bottom: 20px;
+        }
+        
+        .send-btn {
+            background-color: #000000;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Consolas';
+        }
+        
+        .send-btn:hover {
+            background-color: #444444;
+            transform: translateY(-3px);
+        }
+        
+        .send-btn i {
+            font-size: 15px;
+        }
+        
+        .status-message {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            display: inline-block;
+        }
+        
+        .success {
+            background-color: #e2e3e2;
+            color: #8f8f8f;
+            border: 1px solid #b7b8b7;
+        }
+        
+        .error {
+            background-color: #dfdede;
+            color: #bdbcbc;
+            border: 1px solid #525151;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #000000;
+            text-decoration: none;
+            font-size: 1em;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #000000;
+            text-decoration: underline;
+        }
+        
+        .back-link i {
+            margin-right: 5px;
+        }
+    </style>
+    <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"-->
+   
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css"> <!-- try镜像 -->
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <i class="fas fa-envelope"></i> Just One Click
+        </h1>
+        
+        <form class="send-form" action="{% url 'send_email' %}" method="post">
+            {% csrf_token %}  
+            <input type="hidden" name="message" value="I miss you.">
+            <button type="submit" class="send-btn">
+                <i class="fas fa-paper-plane",style="font-size:10px;"></i>
+                Get In Touch With Me
+            </button>
+        </form>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="status-message {{ message.tags }}">
+                    {% if message.tags == 'success' %}
+                        <i class="fas fa-check-circle"></i>
+                    {% else %}
+                        <i class="fas fa-exclamation-circle"></i>
+                    {% endif %}
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <a href="{% url 'index' %}" class="back-link">
+            <i class="fas fa-arrow-left"></i> BACK
+        </a>
+    </div>
+</body>
+</html>
